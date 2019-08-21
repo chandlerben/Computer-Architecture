@@ -7,5 +7,8 @@ from cpu import *
 
 cpu = CPU()
 
-cpu.load()
-cpu.run()
+try:
+    cpu.load(sys.argv[1])
+    cpu.run()
+except IndexError:
+    print("You need a file name to continue")
