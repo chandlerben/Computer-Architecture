@@ -98,8 +98,6 @@ class CPU:
                 self.pc += 3
 
 
-# import sys
-
 
 # HLT = 0b00000001
 # PRN = 0b01000111
