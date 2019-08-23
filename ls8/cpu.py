@@ -14,6 +14,14 @@ MUL = 0b10100010
 ADD = 0b10100000
 CMP = 0b10100111
 JMP = 0b01010100
+JEQ = 0b01010101
+JNE = 0b01010110
+
+# FL bits: 00000LGE
+
+# L Less-than
+# G Greater-than
+# E Equal
 
 
 # Main CPU class
@@ -27,6 +35,8 @@ class CPU:
         self.fl = [0] * 8
 
         self.dispatchtable = {
+            JNE: self.jne,
+            JEQ: self.jeq,
             JMP: self.jmp,
             CMP: self.CMP,
             MUL: self.mul,
@@ -83,6 +93,18 @@ class CPU:
         elif op == "MUL":
             self.reg[reg_a] *= self.reg[reg_b]
 
+        elif op == "JEQ":
+            if self.fl[7] == 1:
+                self.jmp(reg_a, reg_b)
+            else:
+                self.pc += 2
+
+        elif op == "JNE":
+            if self.fl[7] == False:
+                self.jmp(reg_a, reg_b)
+            else:
+                self.pc += 2
+
         else:
             raise Exception("Unsupported ALU operation")
 
@@ -110,8 +132,18 @@ class CPU:
 
     # Handle JMP
 
-    def jmp(self, reg_a):
+    def jmp(self, reg_a, reg_b):
         self.pc = self.reg[reg_a]
+
+    # Handle JEQ
+
+    def jeq(self, reg_a, reg_b):
+        self.alu("JEQ", reg_a, reg_b)
+
+    # Handle JNE
+
+    def jne(self, reg_a, reg_b):
+        self.alu("JNE", reg_a, reg_b)
 
     # Handle MUL
 
