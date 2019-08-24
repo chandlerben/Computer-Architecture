@@ -2,7 +2,7 @@
 
 import sys
 
-
+# List of the codes and corresponding names.
 HLT = 0b00000001
 PRN = 0b01000111
 LDI = 0b10000010
@@ -63,7 +63,7 @@ class CPU:
                     self.ram[address] = int(instruction, 2)
                     address += 1
 
-    # Read RAM at given address and return that value
+    # Read RAM at address then return  value
 
     def ram_read(self, mar):
         return self.ram[mar]
@@ -73,7 +73,7 @@ class CPU:
     def ram_write(self, mar, mdr):
         self.ram[mar] = mdr
 
-    # ALU operations
+    # Arithmetic and Logic Unit
 
     def alu(self, op, reg_a, reg_b):
         if op == "ADD":
@@ -157,7 +157,7 @@ class CPU:
         self.alu("ADD", reg_a, reg_b)
         self.pc += 3
 
-    # Handle PRN instruction
+    # Handle PRN
 
     def prn(self, reg_a, reg_b):
         print(self.reg[reg_a])
